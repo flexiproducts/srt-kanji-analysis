@@ -9,7 +9,10 @@ function App() {
   const [frequentKanjis, setFrequentKanjis] = useState([])
 
   return (
-    <StyledDropZone onDrop={(file, text) => analyzeText(text)}>
+    <DropZone
+      onDrop={(file, text) => analyzeText(text)}
+      handleClick={frequentKanjis.length === 0}
+    >
       {({over}) => (
         <DropArea over={over}>
           {frequentKanjis.map(([kanji, freq]) => (
@@ -19,7 +22,7 @@ function App() {
           ))}
         </DropArea>
       )}
-    </StyledDropZone>
+    </DropZone>
   )
 
   function analyzeText(text) {
@@ -29,11 +32,6 @@ function App() {
 
 const KanjiItem = styled.div`
   font-size: 3em;
-`
-
-const StyledDropZone = styled(DropZone)`
-  width: 100%;
-  min-height: 100%;
 `
 
 const DropArea = styled.div`
