@@ -56,7 +56,8 @@ function App() {
 }
 
 function KanjiFrequency({frequentKanjis}) {
-  const nMostCommon = 10
+  const [nMostCommon, setNMostCommon] = useState(10)
+
   const firstN = frequentKanjis.slice(0, nMostCommon)
 
   const totalNumberOfKanjis = sumBy(frequentKanjis, (pairs) => pairs[1])
@@ -66,14 +67,26 @@ function KanjiFrequency({frequentKanjis}) {
 
   return (
     <Info>
-      The {nMostCommon} most common kanji make out {percentage}% of all kanji
-      usage
+      The{' '}
+      <Input
+        onChange={onInput}
+        type="number"
+        step="5"
+        value={nMostCommon}
+        min="5"
+        max="100"
+      />{' '}
+      most common kanji make out {percentage}% of all kanji usage
     </Info>
   )
+
+  function onInput(e) {
+    setNMostCommon(e.target.value)
+  }
 }
 
 function KanjiLinePercentage({lines, frequentKanjis}) {
-  const nMostCommon = 10
+  const [nMostCommon, setNMostCommon] = useState(10)
 
   const firstN = frequentKanjis.slice(0, nMostCommon).map((k) => k[0])
 
@@ -86,10 +99,29 @@ function KanjiLinePercentage({lines, frequentKanjis}) {
   )
   return (
     <Info>
-      The {nMostCommon} most common kanji are used in {percentage}% of lines
+      The{' '}
+      <Input
+        onChange={onInput}
+        type="number"
+        step="5"
+        value={nMostCommon}
+        min="5"
+        max="100"
+      />{' '}
+      most common kanji are used in {percentage}% of lines
     </Info>
   )
+
+  function onInput(e) {
+    setNMostCommon(e.target.value)
+  }
 }
+
+const Input = styled.input`
+  all: unset;
+  background-color: #f4e8e7;
+  border: 1px solid black;
+`
 
 const Link = styled.a`
   all: unset;
