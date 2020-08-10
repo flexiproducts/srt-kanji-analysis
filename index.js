@@ -16,9 +16,14 @@ function App() {
   return (
     <DropArea {...getRootProps()} over={isDragActive}>
       <input {...getInputProps()} />
-      {frequentKanjis.map(([kanji, freq]) => (
+      {frequentKanjis.map(([kanji]) => (
         <KanjiItem key={kanji}>
-          {kanji} {freq}
+          <Link
+            href={`https://hochanh.github.io/rtk/${kanji}/`}
+            target="heisig"
+          >
+            {kanji}
+          </Link>
         </KanjiItem>
       ))}
     </DropArea>
@@ -35,6 +40,11 @@ function App() {
   }
 }
 
+const Link = styled.a`
+  all: unset;
+  cursor: pointer;
+`
+
 const KanjiItem = styled.div`
   font-size: 3em;
 `
@@ -42,8 +52,9 @@ const KanjiItem = styled.div`
 const DropArea = styled.div`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap-reverse;
   align-items: center;
-  min-height: 100%;
+  height: 100%;
   width: 100%;
   background-color: ${({over}) => (over ? '#F4C1BD' : '#F4E8E7')};
 `
