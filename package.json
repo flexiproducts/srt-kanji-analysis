@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,15 @@
   "dependencies": {
     "iskanji": "^1.0.3",
     "lodash": "^4.17.19",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-drop-zone": "^4.1.1",
+    "styled-components": "^5.1.1",
     "subtitles-parser": "0.0.2"
+  },
+  "devDependencies": {
+    "@flexi/eslint-config": "git+https://github.com/flexiproducts/eslint-config.git",
+    "eslint": "^7.6.0",
+    "parcel-bundler": "^1.12.4"
   }
 }
