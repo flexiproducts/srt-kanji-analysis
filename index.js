@@ -20,16 +20,20 @@ function App() {
     <DropArea {...getRootProps()} over={isDragActive}>
       <input {...getInputProps()} />
       <Kanjis>
-        {frequentKanjis.map(([kanji]) => (
-          <KanjiItem key={kanji}>
-            <Link
-              href={`https://hochanh.github.io/rtk/${kanji}/`}
-              target="heisig"
-            >
-              {kanji}
-            </Link>
-          </KanjiItem>
-        ))}
+        {frequentKanjis.length === 0 ? (
+          <Upload>Click or drag in a SRT file to analyze kanji usage</Upload>
+        ) : (
+          frequentKanjis.map(([kanji]) => (
+            <KanjiItem key={kanji}>
+              <Link
+                href={`https://hochanh.github.io/rtk/${kanji}/`}
+                target="heisig"
+              >
+                {kanji}
+              </Link>
+            </KanjiItem>
+          ))
+        )}
       </Kanjis>
       {frequentKanjis.length > 0 && (
         <Infos>
@@ -116,6 +120,15 @@ function KanjiLinePercentage({lines, frequentKanjis}) {
     setNMostCommon(e.target.value)
   }
 }
+
+const Upload = styled.div`
+  font-size: 3em;
+  font-family: sans-serif;
+  cursor: pointer;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+`
 
 const Input = styled.input`
   all: unset;
