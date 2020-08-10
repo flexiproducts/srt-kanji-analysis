@@ -1,29 +1,34 @@
 import React, {useState} from 'react'
 import ReactDom from 'react-dom'
-import DropZone from 'react-drop-zone'
 import styled from 'styled-components'
 import isKanji from 'iskanji'
+import {useDropzone} from 'react-dropzone'
 import _ from 'lodash'
+import {readAsText} from 'promise-file-reader'
 
 function App() {
   const [frequentKanjis, setFrequentKanjis] = useState([])
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({
+    onDrop,
+    noClick: frequentKanjis.length > 0
+  })
 
   return (
-    <DropZone
-      onDrop={(file, text) => analyzeText(text)}
-      handleClick={frequentKanjis.length === 0}
-    >
-      {({over}) => (
-        <DropArea over={over}>
-          {frequentKanjis.map(([kanji, freq]) => (
-            <KanjiItem key={kanji}>
-              {kanji} {freq}
-            </KanjiItem>
-          ))}
-        </DropArea>
-      )}
-    </DropZone>
+    <DropArea {...getRootProps()} over={isDragActive}>
+      <input {...getInputProps()} />
+      {frequentKanjis.map(([kanji, freq]) => (
+        <KanjiItem key={kanji}>
+          {kanji} {freq}
+        </KanjiItem>
+      ))}
+    </DropArea>
   )
+
+  function onDrop(files) {
+    Promise.all(files.map(readAsText)).then((texts) =>
+      analyzeText(texts.join())
+    )
+  }
 
   function analyzeText(text) {
     setFrequentKanjis(getFrequentKanjis(text))

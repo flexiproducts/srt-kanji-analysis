@@ -13,9 +13,10 @@
   "dependencies": {
     "iskanji": "^1.0.3",
     "lodash": "^4.17.19",
+    "promise-file-reader": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-drop-zone": "^4.1.1",
+    "react-dropzone": "^11.0.2",
     "styled-components": "^5.1.1",
     "subtitles-parser": "0.0.2"
   },
