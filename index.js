@@ -149,6 +149,7 @@ const Infos = styled.div`
   padding: 2em;
   font-family: sans-serif;
   font-size: 2em;
+  box-shadow: inset 0px 12px 11px 0px #ca9e9a;
 `
 
 const Info = styled.div`
