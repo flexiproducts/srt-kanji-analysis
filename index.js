@@ -3,7 +3,7 @@ import ReactDom from 'react-dom'
 import styled from 'styled-components'
 import isKanji from 'iskanji'
 import {useDropzone} from 'react-dropzone'
-import _, {sumBy} from 'lodash'
+import {sumBy, toPairs, sortBy, countBy} from 'lodash'
 import {readAsText} from 'promise-file-reader'
 import parser from 'subtitles-parser'
 
@@ -177,7 +177,7 @@ const DropArea = styled.div`
 ReactDom.render(<App />, document.getElementById('app'))
 
 function getFrequentKanjis(subtitles) {
-  const pairs = _.toPairs(_.countBy(subtitles.split('').filter(isKanji)))
-  const sorted = _.sortBy(pairs, ([, count]) => -count)
+  const pairs = toPairs(countBy(subtitles.split('').filter(isKanji)))
+  const sorted = sortBy(pairs, ([, count]) => -count)
   return sorted
 }
