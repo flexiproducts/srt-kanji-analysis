@@ -1,8 +1,14 @@
-import React from 'react'
-import {useDropzone} from 'react-dropzone'
+import React, {ReactNode} from 'react'
+import {DropzoneOptions, useDropzone} from 'react-dropzone'
 import styled from 'styled-components'
 
-export default function Dropzone({children, onDrop, noClick}) {
+type DropzoneProps = {
+  onDrop: DropzoneOptions['onDrop']
+  noClick: boolean
+  children: ReactNode
+}
+
+export default function Dropzone({children, onDrop, noClick}: DropzoneProps) {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     onDrop,
     noClick
