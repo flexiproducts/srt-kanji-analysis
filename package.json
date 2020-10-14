@@ -2,7 +2,7 @@
   "name": "kanji-analysis",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html --public-url '/srt-kanji-analysis'"
@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^16.9.52",
+    "@types/react-dom": "^16.9.8",
     "iskanji": "^1.0.3",
     "lodash": "^4.17.19",
     "promise-file-reader": "^1.0.2",
@@ -18,7 +20,8 @@
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.2",
     "styled-components": "^5.1.1",
-    "subtitles-parser": "0.0.2"
+    "subtitles-parser": "0.0.2",
+    "typescript": "^4.0.3"
   },
   "devDependencies": {
     "@flexi/eslint-config": "git+https://github.com/flexiproducts/eslint-config.git",
