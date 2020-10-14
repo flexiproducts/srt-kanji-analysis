@@ -1,3 +1,3 @@
-export type FrequentKanjis = [string, number][]
+export type KanjiFrequencies = [string, number][]
 
 export type Lines = string[]

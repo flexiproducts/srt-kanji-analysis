@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import {FrequentKanjis} from '../types'
+import {KanjiFrequencies} from '../types'
 
 type KanjisProps = {
-  frequentKanjis: FrequentKanjis
+  kanjiFrequencies: KanjiFrequencies
 }
 
-export default function Kanjis({frequentKanjis}: KanjisProps) {
+export default function Kanjis({kanjiFrequencies}: KanjisProps) {
   return (
     <>
-      {frequentKanjis.map(([kanji]) => (
+      {kanjiFrequencies.map(([kanji]) => (
         <KanjiItem key={kanji}>
           <Link
             href={`https://hochanh.github.io/rtk/${kanji}/`}

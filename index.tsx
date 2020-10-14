@@ -7,23 +7,25 @@ import {readAsText} from 'promise-file-reader'
 import parser from 'subtitles-parser'
 import Dropzone from './components/Dropzone'
 import Analysis from './components/Analysis'
-import {FrequentKanjis, Lines} from './types'
+import {KanjiFrequencies, Lines} from './types'
 import Kanjis from './components/Kanjis'
 
 function App() {
-  const [frequentKanjis, setFrequentKanjis] = useState<FrequentKanjis>([])
+  const [kanjiFrequencies, setKanjiFrequencies] = useState<KanjiFrequencies>([])
   const [lines, setLines] = useState<Lines>([])
 
   return (
-    <Dropzone noClick={frequentKanjis.length > 0} onDrop={onDrop}>
+    <Dropzone noClick={kanjiFrequencies.length > 0} onDrop={onDrop}>
       <Main>
-        {frequentKanjis.length === 0 ? (
+        {kanjiFrequencies.length === 0 ? (
           <Upload>Click or drag in a SRT file to analyze kanji usage</Upload>
         ) : (
-          <Kanjis {...{frequentKanjis}} />
+          <Kanjis {...{kanjiFrequencies}} />
         )}
       </Main>
-      {frequentKanjis.length > 0 && <Analysis {...{frequentKanjis, lines}} />}
+      {kanjiFrequencies.length > 0 && (
+        <Analysis {...{kanjiFrequencies, lines}} />
+      )}
     </Dropzone>
   )
 
@@ -36,7 +38,7 @@ function App() {
       const kanjis = getFrequentKanjis(texts.join(''))
 
       setLines(allLines)
-      setFrequentKanjis(kanjis)
+      setKanjiFrequencies(kanjis)
     })
   }
 
