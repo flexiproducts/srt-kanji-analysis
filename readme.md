@@ -8,3 +8,5 @@ Run with
 npm install
 npm start
 ```
+
+Master is automatically deployed to https://karugamo.agency/srt-kanji-analysis via Github Actions.
