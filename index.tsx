@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import ReactDom from 'react-dom'
 import styled from 'styled-components'
-import isKanji from 'iskanji'
+import {sumBy, toPairs, sortBy, countBy, flatten} from 'lodash'
 import {useDropzone} from 'react-dropzone'
-import {sumBy, toPairs, sortBy, countBy} from 'lodash'
+import isKanji from 'iskanji'
 import {readAsText} from 'promise-file-reader'
 import parser from 'subtitles-parser'
 
@@ -16,8 +16,13 @@ function App() {
     noClick: frequentKanjis.length > 0
   })
 
+  const dropAreaProps = {
+    ...getRootProps(),
+    over: isDragActive
+  }
+
   return (
-    <DropArea {...getRootProps()} over={isDragActive}>
+    <DropArea {...dropAreaProps} >
       <input {...getInputProps()} />
       <Kanjis>
         {frequentKanjis.length === 0 ? (
@@ -47,9 +52,9 @@ function App() {
 
   function onDrop(files) {
     Promise.all(files.map(readAsText)).then((texts) => {
-      const allLines = texts
+      const allLines = flatten(texts
         .map((text) => parser.fromSrt(text).map((s) => s.text))
-        .flat()
+      )
 
       const kanjis = getFrequentKanjis(texts.join(''))
 
@@ -169,7 +174,7 @@ const KanjiItem = styled.div`
   font-size: 3em;
 `
 
-const DropArea = styled.div`
+const DropArea = styled.div<{over: boolean}>`
   width: 100%;
   background-color: ${({over}) => (over ? '#F4C1BD' : '#F4E8E7')};
 `
