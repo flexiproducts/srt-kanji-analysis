@@ -8,6 +8,7 @@ import parser from 'subtitles-parser'
 import Dropzone from './components/Dropzone'
 import Analysis from './components/Analysis'
 import {FrequentKanjis, Lines} from './types'
+import Kanjis from './components/Kanjis'
 
 function App() {
   const [frequentKanjis, setFrequentKanjis] = useState<FrequentKanjis>([])
@@ -15,22 +16,13 @@ function App() {
 
   return (
     <Dropzone noClick={frequentKanjis.length > 0} onDrop={onDrop}>
-      <Kanjis>
+      <Main>
         {frequentKanjis.length === 0 ? (
           <Upload>Click or drag in a SRT file to analyze kanji usage</Upload>
         ) : (
-          frequentKanjis.map(([kanji]) => (
-            <KanjiItem key={kanji}>
-              <Link
-                href={`https://hochanh.github.io/rtk/${kanji}/`}
-                target="heisig"
-              >
-                {kanji}
-              </Link>
-            </KanjiItem>
-          ))
+          <Kanjis {...{frequentKanjis}} />
         )}
-      </Kanjis>
+      </Main>
       {frequentKanjis.length > 0 && <Analysis {...{frequentKanjis, lines}} />}
     </Dropzone>
   )
@@ -47,6 +39,12 @@ function App() {
       setFrequentKanjis(kanjis)
     })
   }
+
+  function getFrequentKanjis(subtitles) {
+    const pairs = toPairs(countBy(subtitles.split('').filter(isKanji)))
+    const sorted = sortBy(pairs, ([, count]) => -count)
+    return sorted
+  }
 }
 
 const Upload = styled.div`
@@ -58,12 +56,7 @@ const Upload = styled.div`
   align-items: center;
 `
 
-const Link = styled.a`
-  all: unset;
-  cursor: pointer;
-`
-
-const Kanjis = styled.div`
+const Main = styled.section`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap-reverse;
@@ -72,14 +65,4 @@ const Kanjis = styled.div`
   width: 100%;
 `
 
-const KanjiItem = styled.div`
-  font-size: 3em;
-`
-
 ReactDom.render(<App />, document.getElementById('app'))
-
-function getFrequentKanjis(subtitles) {
-  const pairs = toPairs(countBy(subtitles.split('').filter(isKanji)))
-  const sorted = sortBy(pairs, ([, count]) => -count)
-  return sorted
-}
