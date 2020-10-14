@@ -2,28 +2,17 @@ import React, {useState} from 'react'
 import ReactDom from 'react-dom'
 import styled from 'styled-components'
 import {sumBy, toPairs, sortBy, countBy, flatten} from 'lodash'
-import {useDropzone} from 'react-dropzone'
 import isKanji from 'iskanji'
 import {readAsText} from 'promise-file-reader'
 import parser from 'subtitles-parser'
+import Dropzone from './components/Dropzone'
 
 function App() {
   const [frequentKanjis, setFrequentKanjis] = useState([])
   const [lines, setLines] = useState([])
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({
-    onDrop,
-    noClick: frequentKanjis.length > 0
-  })
-
-  const dropAreaProps = {
-    ...getRootProps(),
-    over: isDragActive
-  }
-
   return (
-    <DropArea {...dropAreaProps} >
-      <input {...getInputProps()} />
+    <Dropzone noClick={frequentKanjis.length > 0} onDrop={onDrop}>
       <Kanjis>
         {frequentKanjis.length === 0 ? (
           <Upload>Click or drag in a SRT file to analyze kanji usage</Upload>
@@ -47,13 +36,13 @@ function App() {
           <KanjiFrequency frequentKanjis={frequentKanjis} />
         </Infos>
       )}
-    </DropArea>
+    </Dropzone>
   )
 
   function onDrop(files) {
     Promise.all(files.map(readAsText)).then((texts) => {
-      const allLines = flatten(texts
-        .map((text) => parser.fromSrt(text).map((s) => s.text))
+      const allLines = flatten(
+        texts.map((text) => parser.fromSrt(text).map((s) => s.text))
       )
 
       const kanjis = getFrequentKanjis(texts.join(''))
@@ -172,11 +161,6 @@ const Kanjis = styled.div`
 
 const KanjiItem = styled.div`
   font-size: 3em;
-`
-
-const DropArea = styled.div<{over: boolean}>`
-  width: 100%;
-  background-color: ${({over}) => (over ? '#F4C1BD' : '#F4E8E7')};
 `
 
 ReactDom.render(<App />, document.getElementById('app'))

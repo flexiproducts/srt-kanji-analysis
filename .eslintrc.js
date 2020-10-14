@@ -1,3 +1,5 @@
 module.exports = {
-  extends: ['@flexi']
+  extends: ['@flexi'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint']
 }
